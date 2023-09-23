@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useHistory } from "react-router-dom";
 import classes from "./ProfileForm.module.css";
 
 const ProfileForm = () => {
@@ -6,6 +7,8 @@ const ProfileForm = () => {
   const enterdEmail = useRef();
   const enteredPassword = useRef();
   const enteredCode = useRef();
+
+  const history = useHistory();
 
   const forgetpasshandler = async () => {
     setIsEmailEntered(true);
@@ -48,8 +51,9 @@ const ProfileForm = () => {
         }
       );
       const data = await response.json();
-      alert(data.data);
+      alert(data.message);
       console.log(data);
+      history.replace("/");
     } catch (error) {
       alert(error);
     }
@@ -69,10 +73,12 @@ const ProfileForm = () => {
       {isEmailEntered && (
         <div className={classes.control}>
           <label htmlFor="new-password">enter sent code</label>
-          <input type="password" id="new-password" ref={enteredCode} />
+          <input type="number" id="new-password" ref={enteredCode} />
           <label htmlFor="new-password">enter new password</label>
           <input type="password" id="new-password" ref={enteredPassword} />
-          {isEmailEntered && <button>confirm</button>}
+          <div className={classes.action}>
+            {isEmailEntered && <button>confirm</button>}
+          </div>
         </div>
       )}
     </form>
